@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('regencies', function (Blueprint $table) {
-            $table->char('id', 4)->index();
-            $table->char('province_id', 2);
+            $table->unsignedSmallInteger('id')->autoIncrement()->index();
+            $table->unsignedTinyInteger('province_id');
             $table->string('name', 50)->nullable(false);
-            $table->foreign('province_id')->references('id')->on('provinces')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreign('province_id')->references('id')->on('provinces')->restrictOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

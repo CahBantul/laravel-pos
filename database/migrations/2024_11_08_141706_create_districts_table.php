@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('districts', function (Blueprint $table) {
-            $table->char('id', 7)->index();
-            $table->char('regency_id', 2);
+            $table->unsignedMediumInteger('id')->autoIncrement()->index();
+            $table->unsignedSmallInteger('regency_id');
             $table->string('name', 50)->nullable(false);
             $table->foreign('regency_id')->references('id')->on('regencies')->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();

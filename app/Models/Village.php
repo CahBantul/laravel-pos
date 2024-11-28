@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Village extends Model
 {
+    protected $fillable = ['name', 'district_id'];
     public function district() : BelongsTo
     {
         return $this->belongsTo(District::class);

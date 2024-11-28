@@ -7,6 +7,7 @@ use App\Filament\Resources\DistrictResource\RelationManagers;
 use App\Models\District;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -27,8 +28,15 @@ class DistrictResource extends Resource
             ->schema([
                 Forms\Components\Select::make('regency_id')
                     ->relationship('regency', 'name')
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->rule(function (Get $get, $record) {
+                        $recordId = $record?->id;
+                        $regencyId = $get('regency_id');
+                        return "unique:districts,name,{$recordId},id,regency_id,{$regencyId}";
+                    })
                     ->required()
                     ->maxLength(50),
             ]);

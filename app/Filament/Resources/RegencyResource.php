@@ -7,6 +7,7 @@ use App\Filament\Resources\RegencyResource\RelationManagers;
 use App\Models\Regency;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -27,8 +28,15 @@ class RegencyResource extends Resource
             ->schema([
                 Forms\Components\Select::make('province_id')
                     ->relationship('province', 'name')
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->rule(function (Get $get, $record) {
+                        $recordId = $record?->id;
+                        $provinceId = $get('province_id');
+                        return "unique:regencies,name,{$recordId},id,province_id,{$provinceId}";
+                    })
                     ->required()
                     ->maxLength(50),
             ]);

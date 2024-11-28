@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('provinces', function (Blueprint $table) {
-            $table->char('id', 2)->index();
-            $table->string('name')->nullable(false);
+            $table->unsignedTinyInteger('id')->autoIncrement()->index();
+            $table->string('name', 50)->nullable(false);
             $table->timestamps();
         });
     }
