@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('tax')->nullable();
             $table->tinyInteger('tax_type')->nullable();
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->foreignId('category_id')->constrained('categories')->restrictOnDelete();
             $table->timestamps();
         });

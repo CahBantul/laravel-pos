@@ -19,19 +19,25 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getCategoryForm()
+    {
+        return [
+            Forms\Components\TextInput::make('code')
+                ->default(fn() => "CA_" . str_pad(Category::query()->count("*") + 1, 3, "0", STR_PAD_LEFT))
+                ->unique(ignoreRecord: true)
+                ->required()
+                ->maxLength(255),
+            Forms\Components\TextInput::make('name')
+                ->unique(ignoreRecord: true)
+                ->required()
+                ->maxLength(255),
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->default(fn() => "CA_" . str_pad( Category::query()->count("*") + 1, 3, "0", STR_PAD_LEFT ))
-                    ->unique(ignoreRecord: true)
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(self::getCategoryForm());
     }
 
     public static function table(Table $table): Table

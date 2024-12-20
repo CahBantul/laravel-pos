@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -47,14 +48,21 @@ class ProductResource extends Resource
                     ->prefix('$'),
                 Forms\Components\TextInput::make('tax')
                     ->numeric(),
-                Forms\Components\TextInput::make('tax_type')
-                    ->numeric(),
+                Forms\Components\Select::make('tax_type')
+                    ->options([
+                        1 => 'exclusive',
+                        2 => 'inclusive'
+                    ]),
                 Forms\Components\TextInput::make('note')
-                    ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('category_id')
+                Forms\Components\Select::make('category_id')
+                    ->relationship('category', 'name')
                     ->required()
-                    ->numeric(),
+                    ->createOptionForm(CategoryResource::getCategoryForm())
+                    ->createOptionUsing(function (array $data): int {
+                        $category = Category::query()->create($data);
+                        return $category->id;
+                    }),
             ]);
     }
 
@@ -89,7 +97,6 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('note')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category_id')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
