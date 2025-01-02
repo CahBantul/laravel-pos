@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use App\Models\Supplier;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,5 +25,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RegencySeeder::class);
         $this->call(DistrictSeeder::class);
         $this->call(VillageSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(ProductSeeder::class);
+        Customer::factory(30)->create();
+        Supplier::factory(30)->create();
     }
 }

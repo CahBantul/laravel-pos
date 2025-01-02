@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Customer extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['name', 'email', 'phone', 'address', 'province_id', 'regency_id', 'district_id', 'village_id'];
 
     public function province(): BelongsTo
