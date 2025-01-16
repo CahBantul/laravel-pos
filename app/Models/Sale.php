@@ -15,6 +15,7 @@ class Sale extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    // detail penjualan
     public function saleDetails(): HasMany
     {
         return $this->hasMany(SaleDetail::class);
